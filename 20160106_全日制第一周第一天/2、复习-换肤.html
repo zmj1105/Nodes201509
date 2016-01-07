@@ -40,16 +40,16 @@
     function bindEvent() {
         var btnList = document.getElementsByTagName("input");
         for (var i = 0; i < btnList.length; i++) {
-            btnList[i].zhuFeng = i;
+            (function(i){
             btnList[i].onclick = function () {
                 //第一个按钮 索引是0  ->ary[0]
                 //第二个按钮 索引是1  ->ary[1]
                 //...
-                document.body.style.backgroundColor = ary[this.zhuFeng];
-            }
+                document.body.style.backgroundColor = ary[i];
+            } })(i)
         }
     }
-    bindEvent();
+
 </script>
 </body>
 </html>
