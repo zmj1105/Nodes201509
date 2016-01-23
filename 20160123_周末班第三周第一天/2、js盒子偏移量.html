@@ -87,11 +87,33 @@
 
     //通过上述改变我们发现,只要元素的定位样式改变,我们的父级参照物是谁就不好判断了,在真实的项目中,我们很有可能不知道具体哪些定位哪些没有定位,而且后期的定位的样式可能还会随时的进行修改...所以,我们项目中通常获取的都是当前元素距离body的偏移量(不管body是否是它的父级参照物)
     //jQuery->offset:获取任意元素距离body的偏移量->{top:xxx,left:xxx}把上和左的偏移都可以获取到
-    
 
+    //获取当前元素距离body的偏移量
+    function offset(curEle) {
+        var t = curEle.offsetTop, l = curEle.offsetLeft, p = curEle.offsetParent;
+        while (p) {//->p!=null
+            //在标准的IE8浏览器中,我们的偏移量已经把边框算在内了,所以我们在相加的时候,对于IE8浏览器来说不需要再重复的累加边框了
+            if (navigator.userAgent.indexOf("MSIE 8.0") === -1) {
+                //->不是IE8浏览器,我们把边框加上
+                t += p.clientTop;
+                l += p.clientLeft;
+            }
 
+            t += p.offsetTop;
+            l += p.offsetLeft;
 
+            p = p.offsetParent;
+        }
+        return {top: t, left: l};
+    }
+    var obj = offset(center);
+    console.log(obj);
 
+    obj = offset(inner);
+    console.log(obj);
+
+    obj = offset(outer);
+    console.log(obj);
 </script>
 </body>
 </html>
